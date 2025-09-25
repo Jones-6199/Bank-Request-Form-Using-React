@@ -1,9 +1,21 @@
 import { useState } from "react";
 import "./LoanFormStyle.css"
 import PopUp from "./PopUp";
+import ButtonForm from "./ButtonForm";
 
 export default function LoanForm() {
+  function handnewOne(value){
+    setInputValues({...inputValues, phoneNumber: value})
+  }
 
+  function handleName(value){
+    setInputValues({...inputValues,name: value })
+  }
+
+
+  function handleAge(value){
+    setInputValues({...inputValues, age: value})
+  }
   const [inputValues, setInputValues ] = useState({
     name: "",
     phoneNumber:"",
@@ -17,9 +29,9 @@ export default function LoanForm() {
     inputValues.phoneNumber.trim() !== "" &&
     inputValues.age.trim() !== "" &&
     inputValues.salaryAmount.trim() !== "";
-
   return (
     <div className="flex" style={{ flexDirection:'column' }}>
+    
       <form 
         className="flex" 
         style={{ flexDirection:'column' }}
@@ -32,26 +44,27 @@ export default function LoanForm() {
         <h1>Requesting a bank</h1>
         <hr />
 
-        <label>Name: </label>
-        <input 
-          type="text" 
-          value={inputValues.name} 
-          onChange={(e) => setInputValues({...inputValues, name: e.target.value})} 
+        <ButtonForm 
+        currentInput={inputValues}
+        value={inputValues.name} 
+        handling={handleName}
+        inputName="name"
         />
-
-        <label>Phone Number:</label>
-        <input 
-          type="text" 
-          value={inputValues.phoneNumber}
-          onChange={(e) => setInputValues({...inputValues, phoneNumber: e.target.value})}
+      
+        <ButtonForm 
+        currentInput={inputValues}
+        value={inputValues.phoneNumber} 
+        handling={handnewOne}
+        inputName="phone"
         />
-
-        <label>Age: </label>
-        <input 
-          type="text" 
-          value={inputValues.age}
-          onChange={(e) => setInputValues({...inputValues, age: e.target.value})}
+      
+        <ButtonForm 
+        currentInput={inputValues}
+        value={inputValues.age} 
+        handling={handleAge}
+        inputName="age"
         />
+      
 
         <label style={{marginTop:"30px"}}>Are you an employee?</label>
         <input 

@@ -1,9 +1,8 @@
-import LoanForm from "./LoanFoan"
+import LoanForm from "./LoanForm"
 
 
 
 function App() {
-
 
   return (
     
