@@ -1,15 +1,16 @@
 import React from "react";
 
-export default function MyComponent({ value, handleChangeNumber,componentTitle}) {
+export default function MyComponent({ value, handleChange,componentTitle}) {
   return (
     <>
       <label>{componentTitle}</label>
       <input 
         value={value}
         onChange={(event) => {
-          handleChangeNumber(event.target.value);
+          handleChange(event.target.value);
         }}
       />
+      
     </>
   );
 }

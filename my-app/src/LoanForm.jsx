@@ -26,16 +26,25 @@ export default function LoanForm({value}) {
     }
     setShowModal(true);
   }
-  function handleAge(){
+
+
+
+  function handleAge(value){
     setLoanInputs({...loanInputs, age: value})
   }
 
-  function handleNameChange(){
+
+
+  function handleNameChange(value){
     setLoanInputs({...loanInputs, name: value})
   }
-  function handlePhoneNumberChange(){
+
+
+  function handlePhoneNumberChange(value){
     setLoanInputs({...loanInputs, phoneNumber: value})
   }
+
+
   const btnIsDisabled =
     loanInputs.name == "" ||
     loanInputs.age == "" ||
@@ -59,23 +68,20 @@ export default function LoanForm({value}) {
 
         <MyComponent 
           value={loanInputs.name}
-          handleChangeNumber={handleNameChange}
-          loan={loanInputs}
+          handleChange={handleNameChange}
           componentTitle="Name: "
           />
 
 
           <MyComponent 
           value={loanInputs.phoneNumber}
-          handleChangeNumber={handlePhoneNumberChange}
-          loan={loanInputs}
+          handleChange={handlePhoneNumberChange}
           componentTitle="Phone Number: "
           />
 
           <MyComponent 
           value={loanInputs.age}
-          handleChangeNumber={handleAge}
-          loan={loanInputs}
+          handleChange={handleAge}
           componentTitle="Age: "
           />
 
