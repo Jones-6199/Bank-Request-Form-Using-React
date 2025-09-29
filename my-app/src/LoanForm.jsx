@@ -1,93 +1,117 @@
+import "./FormStyles.css";
+import Modal from "./Modal";
 import { useState } from "react";
-import "./LoanFormStyle.css"
-import PopUp from "./PopUp";
-import ButtonForm from "./ButtonForm";
+import MyComponent from "./MyComponent";
 
-export default function LoanForm() {
-  function handnewOne(value){
-    setInputValues({...inputValues, phoneNumber: value})
-  }
-
-  function handleName(value){
-    setInputValues({...inputValues,name: value })
-  }
-
-
-  function handleAge(value){
-    setInputValues({...inputValues, age: value})
-  }
-  const [inputValues, setInputValues ] = useState({
+export default function LoanForm({value}) {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [loanInputs, setLoanInputs] = useState({
     name: "",
-    phoneNumber:"",
-    age:"",
-    isEmployee:false,
-    salaryAmount:"",
+    phoneNumber: "",
+    age: "",
+    isEmployee: false,
+    salaryRange: "",
   });
+  
 
-  const isFormValid = 
-    inputValues.name.trim() !== "" && 
-    inputValues.phoneNumber.trim() !== "" &&
-    inputValues.age.trim() !== "" &&
-    inputValues.salaryAmount.trim() !== "";
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    setErrorMessage(null);
+    const { age, phoneNumber } = loanInputs;
+    if (age < 18 || age > 100) {
+      setErrorMessage("The age is not allowed");
+    } else if (phoneNumber.length < 10 || phoneNumber.length > 12) {
+      setErrorMessage("Phone Number Fromat Is Incorrect");
+    }
+    setShowModal(true);
+  }
+  function handleAge(){
+    setLoanInputs({...loanInputs, age: value})
+  }
+
+  function handleNameChange(){
+    setLoanInputs({...loanInputs, name: value})
+  }
+  function handlePhoneNumberChange(){
+    setLoanInputs({...loanInputs, phoneNumber: value})
+  }
+  const btnIsDisabled =
+    loanInputs.name == "" ||
+    loanInputs.age == "" ||
+    loanInputs.phoneNumber == "";
+
+  function handleDivClick() {
+    console.log("div clicked");
+    if (showModal) {
+      setShowModal(false);
+    }
+  }
   return (
-    <div className="flex" style={{ flexDirection:'column' }}>
-    
-      <form 
-        className="flex" 
-        style={{ flexDirection:'column' }}
-        id="Loan-form"
-        onSubmit={(e) => {
-          e.preventDefault()
-          console.log("Form submitted:", inputValues)
-        }}
-      >
-        <h1>Requesting a bank</h1>
-        <hr />
+    <div
+      onClick={handleDivClick}
+      className="flex"
+      style={{ flexDirection: "column" }}
+    >
+      <form id="loan-form" className="flex" style={{ flexDirection: "column" }}>
+        <h1>Requesting a Loan</h1>
+        <hr></hr>
 
-        <ButtonForm 
-        currentInput={inputValues}
-        value={inputValues.name} 
-        handling={handleName}
-        inputName="name"
-        />
-      
-        <ButtonForm 
-        currentInput={inputValues}
-        value={inputValues.phoneNumber} 
-        handling={handnewOne}
-        inputName="phone"
-        />
-      
-        <ButtonForm 
-        currentInput={inputValues}
-        value={inputValues.age} 
-        handling={handleAge}
-        inputName="age"
-        />
-      
+        <MyComponent 
+          value={loanInputs.name}
+          handleChangeNumber={handleNameChange}
+          loan={loanInputs}
+          componentTitle="Name: "
+          />
 
-        <label style={{marginTop:"30px"}}>Are you an employee?</label>
-        <input 
+
+          <MyComponent 
+          value={loanInputs.phoneNumber}
+          handleChangeNumber={handlePhoneNumberChange}
+          loan={loanInputs}
+          componentTitle="Phone Number: "
+          />
+
+          <MyComponent 
+          value={loanInputs.age}
+          handleChangeNumber={handleAge}
+          loan={loanInputs}
+          componentTitle="Age: "
+          />
+
+
+        <label style={{ marginTop: "30px" }}>Are you an employee?</label>
+        <input
           type="checkbox"
-          checked={inputValues.isEmployee}
-          onChange={(e) => setInputValues({...inputValues, isEmployee: e.target.checked})}
+          checked={loanInputs.isEmployee}
+          onChange={(event) => {
+            setLoanInputs({ ...loanInputs, isEmployee: event.target.checked });
+          }}
         />
 
-        <label>Salary</label>
+        <label>Salary:</label>
         <select
-          value={inputValues.salaryAmount}
-          onChange={(e) => setInputValues({...inputValues, salaryAmount: e.target.value})}
+          value={loanInputs.salaryRange}
+          onChange={(event) => {
+            setLoanInputs({ ...loanInputs, salaryRange: event.target.value });
+          }}
         >
-          <option value="">-- Select salary --</option>
-          <option value="1500$">1500$</option>
-          <option value="2500$">2500$</option>
-          <option value="5000$">5000$</option>
+          <option>less than 500$</option>
+          <option>between 500$ and 2000</option>
+          <option>above 2000</option>
         </select>
 
-        <button type="submit" disabled={!isFormValid}>
-          Send request
+        <button
+          className={btnIsDisabled ? "disabled" : ""}
+          onClick={handleFormSubmit}
+          disabled={btnIsDisabled}
+          id="submit-loan-btn"
+        >
+          Submit
         </button>
       </form>
+
+      <Modal errorMessage={errorMessage} isVisible={showModal} />
     </div>
   );
 }

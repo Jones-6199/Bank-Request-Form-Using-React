@@ -1,15 +1,12 @@
-import React from "react";
-
-export default function ButtonForm({handling,value,inputName}) {
+export default function ButtonForm({ disvalue, handTheChange }) {
   return (
-    <div>
-          <label>{inputName}</label>
-        <input 
-          type="text" 
-          value={value}
-          onChange={(e) => handling(e.target.value)}
-        />
-
-    </div>
+    <>
+      <label>Name: </label>
+      <input 
+        type="text" 
+        value={disvalue.name}   // ✅ استعمل الخاصية
+        onChange={(e) => handTheChange({ ...disvalue, name: e.target.value })}
+      />
+    </>
   );
 }

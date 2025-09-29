@@ -1,19 +1,13 @@
-import LoanForm from "./LoanForm"
 
 
+import LoanForm from "./LoanForm";
 
 function App() {
-
   return (
-    
-   <div style={{
-    marginTop:'250px',
-
-   }}>
-     <LoanForm />
-   </div>
- 
-  )
+    <div className="App" style={{ marginTop: "250px" }}>
+      <LoanForm />
+    </div>
+  );
 }
 
-export default App
+export default App;
